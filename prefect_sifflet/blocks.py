@@ -1,20 +1,20 @@
 """This is an example blocks module"""
 
 from prefect.blocks.core import Block
-from pydantic import Field
+from pydantic import SecretStr
 
 
-class SiffletBlock(Block):
+class SiffletCredentials(Block):
     """
-    A sample block that holds a value.
+    A block that holds a Sifflet API token.
 
     Attributes:
-        value (str): The value to store.
+        api_token (SecretStr): The API token to use to interact with Sifflet.
 
     Example:
         Load a stored value:
         ```python
-        from prefect_sifflet import SiffletBlock
+        from prefect_sifflet import SiffletCredentials
         block = SiffletBlock.load("BLOCK_NAME")
         ```
     """
@@ -22,12 +22,4 @@ class SiffletBlock(Block):
     _block_type_name = "sifflet"
     # _logo_url = "https://path/to/logo.png"
 
-    value: str = Field("The default value", description="The value to store")
-
-    @classmethod
-    def seed_value_for_example(cls):
-        """
-        Seeds the field, value, so the block can be loaded.
-        """
-        block = cls(value="A sample value")
-        block.save("sample-block", overwrite=True)
+    api_token = SecretStr("The API token value")
