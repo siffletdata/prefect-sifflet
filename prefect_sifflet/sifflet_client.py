@@ -48,7 +48,7 @@ class SiffletClient:
         """
         return f"{self.api_base_url}/rules/{rule_id}/runs"
 
-    def trigger_sifflet_rule(self, rule_id: str) -> Dict:
+    def trigger_sifflet_rule_run(self, rule_id: str) -> Dict:
         """
         TODO
         """
