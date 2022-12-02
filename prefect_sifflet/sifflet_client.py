@@ -55,9 +55,11 @@ class SiffletClient:
         url = self._get_trigger_sifflet_run_api_url(rule_id=rule_id)
         session = self._get_session()
 
-        with session.get(url=url) as response:
+        with session.post(url=url) as response:
             if response.status_code != 200:
-                raise SiffletException(response.text)
+                raise SiffletException(
+                    f"Error while triggering rule run: {response.text}"
+                )
             else:
                 return response.json()
 
@@ -70,7 +72,9 @@ class SiffletClient:
 
         with session.get(url=url) as response:
             if response.status_code != 200:
-                raise SiffletException(response.text)
+                raise SiffletException(
+                    f"Error while retrieving rule run: {response.text}"
+                )
 
             rule_runs = response.json()["data"]
             for rule_run in rule_runs:

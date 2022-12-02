@@ -1,6 +1,9 @@
+import pytest
+import responses
 from pydantic import SecretStr
 
 from prefect_sifflet.credentials import SiffletCredentials
+from prefect_sifflet.exceptions import SiffletException
 from prefect_sifflet.sifflet_client import SiffletClient
 
 
@@ -31,3 +34,27 @@ def test_session_headers():
     session = sc._get_session()
 
     assert session.headers == expected_headers
+
+
+@responses.activate
+def test_trigger_rule_run_fail():
+    tenant = "tenant"
+    api_token = "token"
+    api_version = "v1"
+    rule_id = "id"
+
+    expected_api_url = (
+        f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/_run"
+    )
+    expected_error = "error"
+
+    responses.add(
+        method=responses.POST, url=expected_api_url, status=123, body=expected_error
+    )
+
+    creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
+    sc = SiffletClient(credentials=creds)
+
+    msg_match = f"Error while triggering rule run: {expected_error}"
+    with pytest.raises(SiffletException, match=msg_match):
+        sc.trigger_sifflet_rule(rule_id=rule_id)
