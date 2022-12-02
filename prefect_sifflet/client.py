@@ -5,7 +5,7 @@ from typing import Dict
 
 from requests import Session
 
-from .blocks import SiffletCredentials
+from .credentials import SiffletCredentials
 from .exceptions import SiffletException
 
 

@@ -1,7 +1,7 @@
 """This is an example blocks module"""
 
 from prefect.blocks.core import Block
-from pydantic import Field, SecretStr
+from pydantic import SecretStr
 
 
 class SiffletCredentials(Block):
@@ -20,8 +20,8 @@ class SiffletCredentials(Block):
         ```
     """
 
+    tenant: str
+    api_token: SecretStr
+
     _block_type_name = "sifflet"
     # _logo_url = "https://path/to/logo.png"
-
-    tenant: str = Field("Sifflet tenant")
-    api_token = SecretStr("The API token value")
