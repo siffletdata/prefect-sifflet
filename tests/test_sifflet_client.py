@@ -37,7 +37,7 @@ def test_session_headers():
 
 
 @responses.activate
-def test_trigger_rule_run_fail():
+def test_trigger_sifflet_rule_run_fail():
     tenant = "tenant"
     api_token = "token"
     api_version = "v1"
@@ -61,7 +61,7 @@ def test_trigger_rule_run_fail():
 
 
 @responses.activate
-def test_trigger_rule_run_succeed():
+def test_trigger_sifflet_rule_run_succeed():
     tenant = "tenant"
     api_token = "token"
     api_version = "v1"
@@ -100,3 +100,26 @@ def test_trigger_rule_run_succeed():
 
     assert response == expected_json
     assert responses.calls[0].request.headers["Authorization"] == "Bearer token"
+
+
+@responses.activate
+def test_get_sifflet_rule_run_fail():
+    tenant = "tenant"
+    api_token = "token"
+    api_version = "v1"
+    rule_id = "id"
+    rule_run_id = "run_id"
+
+    expected_api_url = (
+        f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs"
+    )
+
+    responses.add(method=responses.GET, url=expected_api_url, status=123, body="error")
+    expected_error = "error"
+
+    creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
+    sc = SiffletClient(credentials=creds)
+
+    msg_match = f"Error while retrieving rule run: {expected_error}"
+    with pytest.raises(SiffletException, match=msg_match):
+        sc.get_sifflet_rule_run(rule_id=rule_id, rule_run_id=rule_run_id)
