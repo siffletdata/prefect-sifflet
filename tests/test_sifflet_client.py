@@ -110,9 +110,7 @@ def test_get_sifflet_rule_run_fail():
     rule_id = "id"
     rule_run_id = "run_id"
 
-    expected_api_url = (
-        f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs"
-    )
+    expected_api_url = f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=0&itemsPerPage=10&sort=createdDate%2CDESC"  # noqa
 
     responses.add(method=responses.GET, url=expected_api_url, status=123, body="error")
     expected_error = "error"
@@ -123,3 +121,55 @@ def test_get_sifflet_rule_run_fail():
     msg_match = f"Error while retrieving rule run: {expected_error}"
     with pytest.raises(SiffletException, match=msg_match):
         sc.get_sifflet_rule_run(rule_id=rule_id, rule_run_id=rule_run_id)
+
+
+@responses.activate
+def test_get_sifflet_rule_run_succeed():
+    tenant = "tenant"
+    api_token = "token"
+    api_version = "v1"
+    rule_id = "id"
+    rule_run_id = "run_id_11"
+
+    responses.add(
+        method=responses.GET,
+        url=f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=0&itemsPerPage=10&sort=createdDate%2CDESC",  # noqa
+        status=200,
+        json={
+            "totalElements": 12,
+            "data": [
+                {"id": "run_id_1", "status": "FAILED"},
+                {"id": "run_id_2", "status": "FAILED"},
+                {"id": "run_id_3", "status": "FAILED"},
+                {"id": "run_id_4", "status": "FAILED"},
+                {"id": "run_id_5", "status": "FAILED"},
+                {"id": "run_id_6", "status": "FAILED"},
+                {"id": "run_id_7", "status": "FAILED"},
+                {"id": "run_id_8", "status": "FAILED"},
+                {"id": "run_id_9", "status": "FAILED"},
+                {"id": "run_id_10", "status": "FAILED"},
+            ],
+        },
+    )
+
+    responses.add(
+        method=responses.GET,
+        url=f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=1&itemsPerPage=10&sort=createdDate%2CDESC",  # noqa
+        status=200,
+        json={
+            "totalElements": 12,
+            "data": [
+                {"id": "run_id_11", "status": "FAILED"},
+                {"id": "run_id_12", "status": "FAILED"},
+            ],
+        },
+    )
+
+    creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
+    sc = SiffletClient(credentials=creds)
+
+    response = sc.get_sifflet_rule_run(rule_id=rule_id, rule_run_id=rule_run_id)
+
+    assert response == {"id": "run_id_11", "status": "FAILED"}
+
+    assert len(responses.calls) == 2

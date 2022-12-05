@@ -83,7 +83,7 @@ class SiffletClient:
                 rule_id=rule_id,
                 page_id=current_page_id,
                 items_per_page=items_per_page,
-                sort_key="creatDate",
+                sort_key="createdDate",
             )
             session = self._get_session()
             with session.get(url=url) as response:
