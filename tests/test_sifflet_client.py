@@ -137,18 +137,7 @@ def test_get_sifflet_rule_run_succeed():
         status=200,
         json={
             "totalElements": 12,
-            "data": [
-                {"id": "run_id_1", "status": "FAILED"},
-                {"id": "run_id_2", "status": "FAILED"},
-                {"id": "run_id_3", "status": "FAILED"},
-                {"id": "run_id_4", "status": "FAILED"},
-                {"id": "run_id_5", "status": "FAILED"},
-                {"id": "run_id_6", "status": "FAILED"},
-                {"id": "run_id_7", "status": "FAILED"},
-                {"id": "run_id_8", "status": "FAILED"},
-                {"id": "run_id_9", "status": "FAILED"},
-                {"id": "run_id_10", "status": "FAILED"},
-            ],
+            "data": [{"id": f"run_id_{i}", "status": "FAILED"} for i in range(1, 11)],
         },
     )
 
