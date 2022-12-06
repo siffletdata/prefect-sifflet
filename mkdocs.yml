@@ -48,6 +48,6 @@ watch:
 
 nav:
     - Home: index.md
+    - Sifflet Client: sifflet_client.md
     - Tasks: tasks.md
-    - Flows: flows.md
 

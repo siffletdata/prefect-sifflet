@@ -1,5 +1,5 @@
 """
-TODO
+Sifflet Client object that can be used to interact with Sifflet platform APIs.
 """
 from typing import Dict
 
@@ -11,12 +11,13 @@ from .exceptions import SiffletException
 
 class SiffletClient:
     """
-    TODO
+    Sifflet Client object that can be used to interact with Sifflet platform APIs.
     """
 
     def __init__(self, credentials: SiffletCredentials) -> None:
         """
-        TODO
+        credentials: a `SiffletCredentials` object that holds the required
+            information to connect to the Sifflet platform.
         """
         self.credentials = credentials
         self.api_version = "v1"
@@ -26,7 +27,8 @@ class SiffletClient:
 
     def _get_session(self) -> Session:
         """
-        TODO
+        Returns a `Session` object configured with the `accept` and
+            `authorization` headers.
         """
         session = Session()
         session.headers = {
@@ -38,7 +40,13 @@ class SiffletClient:
 
     def _get_trigger_sifflet_run_api_url(self, rule_id: str) -> str:
         """
-        TODO
+        Return the API url that can be used to trigger
+            the Sifflet rule identified by `rule_id`.
+
+        rule_id: The Sifflet rule UUID.
+
+        Returns:
+            The API url to trigger the given Sifflet rule.
         """
         return f"{self.api_base_url}/rules/{rule_id}/_run"
 
