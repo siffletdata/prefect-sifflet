@@ -1,6 +1,7 @@
 """
 TODO
 """
+from time import sleep
 from typing import Dict
 
 from prefect import task
@@ -26,7 +27,11 @@ def get_sifflet_rule_run(
 
 @task
 def trigger_sifflet_rule_run(
-    tenant: str, api_token: str, rule_id: str, wait_for_completion: bool = True
+    tenant: str,
+    api_token: str,
+    rule_id: str,
+    wait_for_completion: bool = True,
+    wait_seconds_between_api_calls: int = 10,
 ) -> Dict:
     """
     TODO
@@ -36,15 +41,17 @@ def trigger_sifflet_rule_run(
     sc = SiffletClient(credentials=creds)
 
     if wait_for_completion:
-        trigger_response = sc.trigger_sifflet_rule_run(rule_id=rule_id)
-        rule_run_id = trigger_response["id"]
+        trigger_rule_run_response = sc.trigger_sifflet_rule_run(rule_id=rule_id)
+        rule_run_id = trigger_rule_run_response["id"]
         while True:
-            get_rule_run_response = sc.get_sifflet_rule_run(
+            rule_run_response = sc.get_sifflet_rule_run(
                 rule_id=rule_id, rule_run_id=rule_run_id
             )
-            rule_run_status = get_rule_run_response["status"]
+            rule_run_status = rule_run_response["status"]
             if rule_run_status != "RUNNING":
-                return get_rule_run_response
+                return rule_run_response
+
+            sleep(secs=wait_seconds_between_api_calls)
 
     else:
         return sc.trigger_sifflet_rule_run(rule_id=rule_id)
