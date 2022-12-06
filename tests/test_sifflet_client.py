@@ -110,7 +110,7 @@ def test_get_sifflet_rule_run_fail():
     rule_id = "id"
     rule_run_id = "run_id"
 
-    expected_api_url = f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=0&itemsPerPage=10&sort=createdDate%2CDESC"  # noqa
+    expected_api_url = f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs/{rule_run_id}"  # noqa
 
     responses.add(method=responses.GET, url=expected_api_url, status=123, body="error")
     expected_error = "error"
@@ -129,29 +129,13 @@ def test_get_sifflet_rule_run_succeed():
     api_token = "token"
     api_version = "v1"
     rule_id = "id"
-    rule_run_id = "run_id_11"
+    rule_run_id = "run_id"
 
     responses.add(
         method=responses.GET,
-        url=f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=0&itemsPerPage=10&sort=createdDate%2CDESC",  # noqa
+        url=f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs/{rule_run_id}",  # noqa
         status=200,
-        json={
-            "totalElements": 12,
-            "data": [{"id": f"run_id_{i}", "status": "FAILED"} for i in range(1, 11)],
-        },
-    )
-
-    responses.add(
-        method=responses.GET,
-        url=f"https://{tenant}api.siffletdata.com/api/{api_version}/rules/{rule_id}/runs?page=1&itemsPerPage=10&sort=createdDate%2CDESC",  # noqa
-        status=200,
-        json={
-            "totalElements": 12,
-            "data": [
-                {"id": "run_id_11", "status": "FAILED"},
-                {"id": "run_id_12", "status": "FAILED"},
-            ],
-        },
+        json={"id": "run_id", "status": "FAILED"},
     )
 
     creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
@@ -159,6 +143,4 @@ def test_get_sifflet_rule_run_succeed():
 
     response = sc.get_sifflet_rule_run(rule_id=rule_id, rule_run_id=rule_run_id)
 
-    assert response == {"id": "run_id_11", "status": "FAILED"}
-
-    assert len(responses.calls) == 2
+    assert response == {"id": "run_id", "status": "FAILED"}
