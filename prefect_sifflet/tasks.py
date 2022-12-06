@@ -50,7 +50,7 @@ def trigger_sifflet_rule_run(
             if rule_run_status != "RUNNING":
                 return rule_run_response
 
-            sleep(secs=wait_seconds_between_api_calls)
+            sleep(wait_seconds_between_api_calls)
 
     else:
         return sc.trigger_sifflet_rule_run(rule_id=rule_id)
