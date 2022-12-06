@@ -19,7 +19,6 @@ def get_sifflet_rule_run(
     TODO
     """
     creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
-
     sc = SiffletClient(credentials=creds)
 
     return sc.get_sifflet_rule_run(rule_id=rule_id, rule_run_id=rule_run_id)
@@ -37,12 +36,12 @@ def trigger_sifflet_rule_run(
     TODO
     """
     creds = SiffletCredentials(tenant=tenant, api_token=SecretStr(api_token))
-
     sc = SiffletClient(credentials=creds)
 
     if wait_for_completion:
         trigger_rule_run_response = sc.trigger_sifflet_rule_run(rule_id=rule_id)
         rule_run_id = trigger_rule_run_response["id"]
+
         while True:
             rule_run_response = sc.get_sifflet_rule_run(
                 rule_id=rule_id, rule_run_id=rule_run_id
