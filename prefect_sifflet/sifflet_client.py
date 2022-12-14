@@ -11,13 +11,16 @@ from .exceptions import SiffletException
 
 class SiffletClient:
     """
-    Sifflet Client object that can be used to interact with Sifflet platform APIs.
+    SiffletClient object that can be used to interact with Sifflet platform APIs.
     """
 
     def __init__(self, credentials: SiffletCredentials) -> None:
         """
-        credentials: a `SiffletCredentials` object that holds the required
-            information to connect to the Sifflet platform.
+        Create a SiffletClient object that can be used to interact with Sifflet APIs.
+
+        Args:
+            credentials: a `SiffletCredentials` object that holds the required
+                information to connect to the Sifflet platform.
         """
         self.credentials = credentials
         self.api_version = "v1"
@@ -58,7 +61,13 @@ class SiffletClient:
 
     def trigger_sifflet_rule_run(self, rule_id: str) -> Dict:
         """
-        TODO
+        Trigger run of a Sifflet Rule given its unique identifier.
+
+        Args:
+            rule_id: The unique identifier of the Sifflet Rule to trigger.
+
+        Returns:
+            An object with information about the triggered rule run.
         """
         url = self._get_trigger_sifflet_run_api_url(rule_id=rule_id)
         session = self._get_session()
@@ -73,7 +82,15 @@ class SiffletClient:
 
     def get_sifflet_rule_run(self, rule_id: str, rule_run_id: str) -> Dict:
         """
-        TODO
+        Return information about a run of a Sifflet Rule given the rule identifier
+        and the run identifier.
+
+        Args:
+            rule_id: The unique identifier of the rule.
+            rule_run_id: The unique identifier of the rule run.
+
+        Returns:
+            An object with information about the requested rule run.
         """
 
         url = self._get_sifflet_rule_runs_api_url(
