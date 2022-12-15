@@ -1,5 +1,5 @@
 """
-TODO
+Collection of tasks to interact with the Sifflet Data Observability platform.
 """
 from time import sleep
 from typing import Dict

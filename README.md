@@ -51,17 +51,33 @@ Note, to use the `load` method on Blocks, you must already have a block document
 ```python
 from prefect import flow
 from prefect_sifflet.tasks import (
-    goodbye_prefect_sifflet,
-    hello_prefect_sifflet,
+    trigger_sifflet_rule_run,
+    get_sifflet_rule_run,
 )
 
 
 @flow
-def example_flow():
-    hello_prefect_sifflet
-    goodbye_prefect_sifflet
+def execute_rule():
+    tenant = "<your tenant>"
+    api_token = "<your API token>"
+    rule_id = "<your rule ID>"
 
-example_flow()
+    response = trigger_sifflet_rule_run(
+        tenant=tenant,
+        api_token=api_token,
+        rule_id=rule_id,
+        wait_for_completion=False
+    )
+    rule_run_id = response["id"]
+
+    rule_run_result = get_sifflet_rule_run(
+        tenant=tenant,
+        api_token=api_token,
+        rule_id=rule_id,
+        rule_run_id=rule_run_id
+    )
+
+execute_rule()
 ```
 
 ## Resources
