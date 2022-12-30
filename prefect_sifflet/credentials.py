@@ -25,5 +25,5 @@ class SiffletCredentials(Block):
     tenant: str
     api_token: SecretStr
 
-    _block_type_name = "Sifflect Credentials"
+    _block_type_name = "Sifflet Credentials"
     # _logo_url = "https://path/to/logo.png"
