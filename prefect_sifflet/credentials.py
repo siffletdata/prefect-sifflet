@@ -1,4 +1,6 @@
-"""This is an example blocks module"""
+"""
+Block that holds information required to connect to the Sifflet platform.
+"""
 
 from prefect.blocks.core import Block
 from pydantic import SecretStr
@@ -6,7 +8,7 @@ from pydantic import SecretStr
 
 class SiffletCredentials(Block):
     """
-    A block that holds a Sifflet API token.
+    A block that holds information required to connect to the Sifflet platform.
 
     Attributes:
         tenant (Field): The tenant of the Sifflet deployment
@@ -16,12 +18,12 @@ class SiffletCredentials(Block):
         Load a stored value:
         ```python
         from prefect_sifflet import SiffletCredentials
-        block = SiffletBlock.load("BLOCK_NAME")
+        block = SiffletCredentials.load("BLOCK_NAME")
         ```
     """
 
     tenant: str
     api_token: SecretStr
 
-    _block_type_name = "sifflet"
+    _block_type_name = "Sifflet Credentials"
     # _logo_url = "https://path/to/logo.png"
