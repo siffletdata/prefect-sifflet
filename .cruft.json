@@ -1,0 +1,20 @@
+{
+  "template": "https://github.com/PrefectHQ/prefect-collection-template",
+  "commit": "dabff0c99e3eb545d926ec6026bf8843e84eeb6a",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Alessandro Lollo",
+      "email": "alessandro.lollo@gmail.com",
+      "github_organization": "AlessandroLollo",
+      "collection_name": "prefect-sifflet",
+      "collection_slug": "prefect_sifflet",
+      "collection_short_description": "Integrate Sifflet Data Observability Platform with Prefect",
+      "_copy_without_render": [
+        ".github/workflows/*.yml"
+      ],
+      "_template": "https://github.com/PrefectHQ/prefect-collection-template"
+    }
+  },
+  "directory": null
+}
