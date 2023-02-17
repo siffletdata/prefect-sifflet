@@ -13,5 +13,5 @@ mkdocs-gen-files
 interrogate
 coverage
 pillow
-setuptools >=66.1.1,<67.0.0
+setuptools >=65.7.0,<66.0.0
 responses
