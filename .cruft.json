@@ -6,7 +6,7 @@
     "cookiecutter": {
       "full_name": "Alessandro Lollo",
       "email": "alessandro.lollo@gmail.com",
-      "github_organization": "AlessandroLollo",
+      "github_organization": "Siffletapp",
       "collection_name": "prefect-sifflet",
       "collection_slug": "prefect_sifflet",
       "collection_short_description": "Integrate Sifflet Data Observability Platform with Prefect",
