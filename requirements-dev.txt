@@ -13,4 +13,5 @@ mkdocs-gen-files
 interrogate
 coverage
 pillow
+setuptools
 responses
