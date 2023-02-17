@@ -18,7 +18,7 @@ setup(
     author="Alessandro Lollo",
     author_email="alessandro.lollo@gmail.com",
     keywords="prefect",
-    url="https://github.com/AlessandroLollo/prefect-sifflet",
+    url="https://github.com/Siffletapp/prefect-sifflet",
     long_description=readme,
     long_description_content_type="text/markdown",
     version=versioneer.get_version(),

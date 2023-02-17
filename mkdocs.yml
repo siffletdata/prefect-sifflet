@@ -1,6 +1,6 @@
 site_name: prefect-sifflet
-site_url: https://AlessandroLollo.github.io/prefect-sifflet
-repo_url: https://github.com/AlessandroLollo/prefect-sifflet
+site_url: https://siffletapp.github.io/prefect-sifflet
+repo_url: https://github.com/Siffletapp/prefect-sifflet
 edit_uri: edit/main/docs/
 theme:
   name: material
